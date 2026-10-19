@@ -76,10 +76,11 @@ npm start -- --fake --dry
 
 ## 许可证与署名
 
-- **本仓库自己的代码（`trpg-table/`、`campaign-vault/` 里的文字、`docs/`）：作者还没选许可证**，在选定之前保留所有权利（可以读、可以学习，复用请先联系作者）。
-- [`atlas-agent-link/`](atlas-agent-link)：AGPL-3.0-only（见其 `LICENSE`）。
+- **本仓库自己的代码和文字**（`trpg-table/`、`campaign-vault/` 里的剧本 / 角色卡 / 配置、`docs/`、`launch/`、`scripts/`）：**MIT**，见 [`LICENSE`](LICENSE)。
+- [`atlas-agent-link/`](atlas-agent-link)：**AGPL-3.0-only**（见其 `LICENSE`），不在 MIT 范围内。
+- 哪些部分不在 MIT 范围、各自按什么条款，写在 [`NOTICE.md`](NOTICE.md)：SRD 数据（CC-BY-4.0）、ODM 改写的代码和数据（MIT，上游署名）、D&D 的专有名词（不授权）、第三方素材。
 - `trpg-table/src/rules/logic/`：规则逻辑改写自 [Open Dungeon Master](https://github.com/Lebbitheplow/open-dungeon-master)（MIT），署名和许可证全文见 [`trpg-table/src/rules/NOTICE.md`](trpg-table/src/rules/NOTICE.md)。
-- 规则数据（武器、法术、怪物数值等）取自 **System Reference Document 5.1**，© Wizards of the Coast LLC，CC-BY-4.0：
+- 规则数据里 `source: srd` 的条目取自 **System Reference Document 5.1**，© Wizards of the Coast LLC，CC-BY-4.0：
 
   > This work includes material taken from the System Reference Document 5.1 ("SRD 5.1") by Wizards of the Coast LLC, available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
 

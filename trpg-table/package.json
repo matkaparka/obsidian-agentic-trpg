@@ -2,6 +2,7 @@
   "name": "trpg-table",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "description": "AI D&D 5e table for a live-streamed actual play: Claude GM, DeepSeek/Gemini players, Atlas VTT, overlay and helixus-link.",
   "type": "module",
   "engines": {

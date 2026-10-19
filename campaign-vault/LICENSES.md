@@ -15,8 +15,8 @@
 | `assets/maps/crashed-ship-{deck,hold,cave}.png` | 本项目生成（`trpg-table/scripts/make_placeholder_assets.py`） | CC-BY-4.0（原创占位图） | ✅ | ✅ | **占位图**，正式直播前可换成用户选定的地图；替换后要在这里登记 |
 | `assets/tokens/*.png` | 本项目生成（同上脚本） | CC-BY-4.0 | ✅ | ✅ | 占位 token 图 |
 | `scenes/crashed-ship-*.atlasmap` | 本项目生成（基于测试场景的空白结构） | 本项目原创 | ✅ | ✅ | 空白地图；token 由 trpg-table 写入 |
-| 剧本 `adventures/crashed-ship/**` | 本项目原创（GM 大纲由 Claude/本会话起草） | CC-BY-4.0 | ✅ | ✅ | 用户审过后再用；不是 WotC 模组 |
-| 角色卡 `characters/*.json` | 本项目原创草稿 | CC-BY-4.0 | ✅ | ✅ | **人设要用户定稿** |
+| 剧本 `adventures/crashed-ship/**` | 本项目原创（GM 大纲由 Claude/本会话起草） | MIT（仓库根 `LICENSE`） | ✅ | ✅ | 用户审过后再用；不是 WotC 模组 |
+| 角色卡 `characters/*.json` | 本项目原创草稿 | MIT（仓库根 `LICENSE`） | ✅ | ✅ | **人设要用户定稿** |
 | SRD 数据（武器/法术/怪物数值） | Wizards of the Coast, SRD 5.1 | CC-BY-4.0 | ✅ | ✅ | 见下方署名 |
 | `resource_pack/Forest road.zip`、`Forest camp.zip`（解开的 jpg 也在里面），以及从它们做出来的 `assets/maps/phandalin-*` | Manea Roliste（https://manea.itch.io/forest-road-map-pack 、…/forest-camp-battlemaps） | 搜索摘要转述：CC BY-NC 4.0，另有创作者自己写的 "I authorize them utilisation for monetized streams and videos, like on Twitch and YouTube"。**zip 里没有许可证文件，页面原文这边读不到（代理连不上 itch.io），用户 下载时在页面上看过没有，未记录** | ⚠️ 只在创作者页面声明的"收费直播和视频"范围内；其它商用要联系作者 | ❌ 不要把图再发布 | 署名（CC BY）：写 "Maps by Manea Roliste"。页面截图 / 声明原文请 用户 存一份 |
 | `assets/maps/phandalin-cave-*`（来自 `incoming/dyson-deep-sepulchre/`） | Dyson Logos「The Deep Sepulchre」，https://dysonlogos.blog/2023/09/16/deep-sepulchre/ | 页面原文："This map is made available to you under a free license for personal or commercial use"（1200 dpi 版本）；300 dpi 宣传版不在许可内，没用 | ✅ | 见页面 | **必须署名** "Cartography by Dyson Logos"（直播间简介 / 画面里都行）。我们从原图裁出两层、去掉 Patreon 页脚、缩放，没有改图本身 |
@@ -42,7 +42,7 @@ SRD 5.1 与 5.2 都是 CC-BY-4.0。Open5e v2 的 `srd-2024` 文档也是 CC-BY-4
 | --- | --- | --- |
 | Atlas VTT 0.8.0（Obsidian 插件） | 未在本 vault 内核对许可证文件；按官方 release 本地安装 | 不随本项目再发布 |
 | atlas-agent-link | AGPL-3.0-only（见其 `LICENSE` / `docs/HANDOFF.md`） | 本地运行；trpg-table 没有复制它的代码，只按 `docs/INTEGRATION.md` 的协议自己实现客户端 |
-| trpg-table | 本项目（未定许可证） | 本地使用；如果要开源/分发再决定 |
+| trpg-table | MIT（仓库根 `LICENSE`） | 范围和例外见仓库根 `NOTICE.md` |
 | 阿里云百炼 qwen3-tts-flash（配音：Eldric Sage / Kai / Marcus 三个系统音色） | 付费 API（北京地域约 0.8 元 / 万字符），按阿里云百炼服务条款 | 合成出来的音频能不能用在收益直播里、要不要标注 AI 配音：**我没读服务条款原文，未核实**；密钥在 `trpg-table/.env`（不进仓库） |
 
 ## 4. 候选素材（**下载前必须用户点头**）
@@ -53,7 +53,7 @@ SRD 5.1 与 5.2 都是 CC-BY-4.0。Open5e v2 的 `srd-2024` 文档也是 CC-BY-4
 
 | 候选 | 来源 | 许可证 | 商用直播 | 结论 |
 | --- | --- | --- | --- | --- |
-| 自编《银鸥号的残骸》（当前使用） | 本项目 | CC-BY-4.0 | ✅ | **已采用**，用户审稿即可 |
+| 自编《银鸥号的残骸》（当前使用） | 本项目 | MIT（仓库根 `LICENSE`） | ✅ | **已采用**，用户审稿即可 |
 | One Page Dungeon Contest 作品（选一届） | https://www.dungeoncontest.com/ | 各届/各作者不同，常见 CC-BY-SA；**未逐篇核实** | 需逐篇核实 | 候选；下载前先确认那一篇的版权声明 |
 | Winghorn Press / DMs Guild 免费 one-shot | DMs Guild | DMs Guild 社区内容协议；**未核实** | 一般允许直播，但**不能把 PDF/地图再发布** | 候选；需用户确认 |
 | WotC 官方模组 | — | 非开放许可 | ❌ | 不用 |
