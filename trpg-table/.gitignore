@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+logs/
+state/
+*.log
+.DS_Store
+.edge-profile*
+.edge-shot/
+.chrome-shot/
+docs/shots/v2-raw/

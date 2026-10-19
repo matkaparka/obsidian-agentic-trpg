@@ -1,0 +1,253 @@
+{
+ "fixture": "atlas-vtt 0.8.0 live store state, captured through AtlasView.getStore().getState()",
+ "capturedAt": "2026-10-17T06:56:07.629Z",
+ "atlasVersion": "0.8.0",
+ "obsidianVersion": null,
+ "state": {
+  "lighting": {
+   "enabled": false,
+   "ambient": 1,
+   "tokenVision": true,
+   "exploredMemory": true
+  },
+  "exploredMask": null,
+  "exploredEdits": 0,
+  "partyValues": {},
+  "schema": "atlas-vtt",
+  "version": 4,
+  "mapPath": "scenes/e2e.atlasmap",
+  "background": "assets/battlemap.png",
+  "grid": {
+   "enabled": true,
+   "visible": true,
+   "snapToGrid": true,
+   "type": "square",
+   "size": 70,
+   "offsetX": 0,
+   "offsetY": 0,
+   "opacity": 0.5,
+   "lineType": "solid",
+   "lineWidth": 1,
+   "unitType": "feet",
+   "unitDistance": 5
+  },
+  "objects": {
+   "tokens": {
+    "tok_1792218771451_q3bbmzslc": {
+     "imagePath": "assets/token-goblin.png",
+     "x": 875,
+     "y": 735,
+     "size": 1,
+     "name": "Grik the Goblin",
+     "id": "tok_1792218771451_q3bbmzslc",
+     "kind": "token",
+     "instanceNumber": 1
+    },
+    "tok_1792218771452_gztym7y3s": {
+     "imagePath": "assets/token-wolf.png",
+     "x": 350,
+     "y": 350,
+     "size": 1.5,
+     "name": "Dire Wolf",
+     "id": "tok_1792218771452_gztym7y3s",
+     "kind": "token",
+     "instanceNumber": 1,
+     "conditions": [
+      "prone"
+     ]
+    },
+    "tok_1792218771452_lcgdblowi": {
+     "imagePath": "assets/token-hero.png",
+     "x": 595,
+     "y": 455,
+     "size": 1,
+     "name": "Aria",
+     "id": "tok_1792218771452_lcgdblowi",
+     "kind": "token",
+     "instanceNumber": 1,
+     "ringColor": "#e1b12c",
+     "showNameplate": true
+    }
+   },
+   "fog": {},
+   "pins": {},
+   "texts": {},
+   "drawings": {},
+   "walls": {
+    "wall_1792218771547_bvoprq5xb": {
+     "id": "wall_1792218771547_bvoprq5xb",
+     "kind": "wall",
+     "type": "solid",
+     "p1": {
+      "x": 35,
+      "y": 665
+     },
+     "p2": {
+      "x": 455,
+      "y": 665
+     }
+    },
+    "wall_1792218771552_ze251sruk": {
+     "id": "wall_1792218771552_ze251sruk",
+     "kind": "wall",
+     "type": "door",
+     "p1": {
+      "x": 455,
+      "y": 665
+     },
+     "p2": {
+      "x": 665,
+      "y": 665
+     },
+     "closed": false
+    }
+   },
+   "lights": {
+    "light_1792218771561_pc2ogo2yf": {
+     "id": "light_1792218771561_pc2ogo2yf",
+     "kind": "light",
+     "x": 385,
+     "y": 385,
+     "emission": {
+      "bright": 20,
+      "dim": 40,
+      "color": "#ffcc88",
+      "intensity": 1,
+      "animation": "torch"
+     }
+    }
+   }
+  },
+  "camera": {
+   "x": 0,
+   "y": 0,
+   "scale": 1
+  },
+  "persistenceEnabled": true,
+  "widgetSettings": {
+   "widgets": {},
+   "globalVisible": true,
+   "position": "top",
+   "scale": 1
+  },
+  "widgetValues": {},
+  "dmNotePath": null,
+  "tokenSettings": {
+   "showNameplates": false,
+   "hiddenResources": [],
+   "showInstanceBadges": true,
+   "tokenRingSize": 1
+  },
+  "initiative": {
+   "entries": [
+    {
+     "tokenId": "tok_1792218771452_gztym7y3s",
+     "name": "Dire Wolf",
+     "initiative": 15,
+     "initiativeModifier": 0,
+     "imagePath": "assets/token-wolf.png",
+     "isNPC": true,
+     "id": "init_1792218771569_sp7dh0um8",
+     "order": 0,
+     "isActive": false
+    },
+    {
+     "tokenId": "tok_1792218771452_lcgdblowi",
+     "name": "Aria",
+     "initiative": 11,
+     "initiativeModifier": 0,
+     "imagePath": "assets/token-hero.png",
+     "isNPC": true,
+     "id": "init_1792218771569_2015x8tn5",
+     "order": 1,
+     "isActive": true
+    },
+    {
+     "tokenId": "tok_1792218771451_q3bbmzslc",
+     "name": "Grik the Goblin",
+     "initiative": 7,
+     "initiativeModifier": 0,
+     "imagePath": "assets/token-goblin.png",
+     "isNPC": true,
+     "id": "init_1792218771569_9ro7r826w",
+     "order": 2,
+     "isActive": false
+    }
+   ],
+   "currentIndex": 1,
+   "round": 1,
+   "isActive": true,
+   "config": {
+    "autoSort": true
+   }
+  },
+  "diceLog": [
+   {
+    "id": "roll_mvc0s6n71yfyrv",
+    "timestamp": 1792218771619,
+    "formula": "2d20kh1+5",
+    "rolls": [
+     {
+      "die": "d20",
+      "value": 2,
+      "max": 20,
+      "dropped": true
+     },
+     {
+      "die": "d20",
+      "value": 8,
+      "max": 20
+     }
+    ],
+    "modifiers": 5,
+    "total": 13,
+    "source": {
+     "type": "toolbar",
+     "tokenId": "tok_1792218771451_q3bbmzslc",
+     "tokenName": "Grik the Goblin",
+     "tokenImagePath": "assets/token-goblin.png",
+     "abilityName": "Grik attacks Aria"
+    }
+   }
+  ],
+  "pinnedNotePreviews": {},
+  "lootRoller": {
+   "open": false,
+   "disabledViews": [],
+   "excludedRarities": [],
+   "count": 1,
+   "pane": "results"
+  },
+  "isPlayerView": false,
+  "isGMView": true,
+  "selectedIds": [],
+  "activeTool": "move",
+  "selectionMode": "box",
+  "isDragging": false,
+  "currentCollectionId": "default",
+  "mapLoaded": true,
+  "isMapLoading": false,
+  "_audioDirty": true,
+  "initiativeTrackerOpen": true,
+  "isGridSettingsOpen": false,
+  "isDMScreenOpen": false,
+  "isGridAlignmentOpen": false,
+  "isDiceLogOpen": false,
+  "isAssetManagerOpen": false,
+  "isCommandPaletteOpen": false,
+  "isDiceTrayOpen": false,
+  "lightPopover": null,
+  "lightZonePopover": null,
+  "isSceneLightingPanelOpen": false,
+  "heldTokens": {},
+  "exploredBrush": {
+   "mode": "reveal",
+   "shape": "brush",
+   "brushSize": 50
+  },
+  "isToolbarEditing": false,
+  "mapLoadingProgress": 90,
+  "mapLoadingMessage": "Finalizing...",
+  "name": "Agent Link Test Scene"
+ }
+}

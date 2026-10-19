@@ -1,0 +1,87 @@
+# 换某个座位的模型：只改这个文件里的一行。
+# 密钥不进这里：key_env 指向 .env 里的变量名。.env 已在 .gitignore 中。
+#
+# provider.proxy 只影响这一个 provider；发往回环地址（127.0.0.1 / localhost）的请求
+# 永远不走代理（以前 httpx 读系统代理，本地请求全 502）。不要在这里写系统代理。
+
+providers:
+  anthropic:
+    kind: anthropic
+    key_env: ANTHROPIC_API_KEY
+    base_url: https://api.anthropic.com
+    api_version: "2023-06-01"
+    proxy: http://127.0.0.1:7897
+    timeout_ms: 120000
+    max_retries: 3
+
+  gemini:
+    kind: gemini
+    key_env: GEMINI_API_KEY
+    base_url: https://generativelanguage.googleapis.com
+    api_version: v1beta
+    proxy: http://127.0.0.1:7897
+    timeout_ms: 180000
+    max_retries: 3
+    # 经代理时可能报 "User location is not supported"：这是代理节点所在地区的问题。
+    # 报清楚，让用户换节点；不要绕过。
+
+  deepseek:
+    kind: openai_compatible
+    key_env: DEEPSEEK_API_KEY
+    base_url: https://api.deepseek.com
+    proxy: null
+    timeout_ms: 180000
+    max_retries: 3
+
+# 模型 ID 于 2026-10-17 用各家的 /models 接口列出来核对过：
+#   anthropic: claude-sonnet-5-5 / claude-haiku-5-5 都在列表里
+#   gemini:    gemini-3.1-pro-preview（gemini-3-pro 不存在）
+#   deepseek:  deepseek-reasoner 可用
+seats:
+  gm:
+    provider: anthropic
+    # 2026-10-19 用户 要求 GM 换 Haiku（$0.10 / $0.50 每百万 token，Sonnet 5.5 是 $2 / $10，贵 20 倍）。
+    # Haiku 5.5 默认开自适应思考、思考也算 max_tokens；要换回去把这一行改回 claude-sonnet-5-5 就行。
+    model: claude-haiku-5-5
+    max_tokens: 4000
+    # Claude 5.5 已弃用 temperature：显式 null，适配层就不发这个字段。
+    temperature: null
+    reasoning: none
+
+  player_a:
+    provider: deepseek
+    model: deepseek-reasoner
+    max_tokens: 2000
+    temperature: 1.0
+    # DeepSeek 的 reasoning_content 是原文
+    reasoning: raw
+
+  player_b:
+    provider: gemini
+    # Gemini 的 includeThoughts 给的是思考摘要，不是原文。
+    # 2026-10-17 实测：pro-preview 单回合 19s（有一次 197s），3.5-flash 约 5s；直播用 flash。
+    model: gemini-3.5-flash
+    max_tokens: 2000
+    temperature: 1.0
+    reasoning: summary
+    # 摘要 883 字时 renderer 输入偏长；1024 让摘要短一些，也快一些。
+    thinking_budget: 1024
+
+  director:
+    # 进度导演：每隔几个探索轮对照剧本判断一次「出口满足了没有、有没有和剧本对不上、下一步该推什么」，只输出 JSON。
+    # 要换模型改这一行；整段不写就沿用 gm 的模型。Haiku 5.5 的思考也算 max_tokens，所以给得宽一点。
+    provider: anthropic
+    model: claude-haiku-5-5
+    max_tokens: 1500
+    temperature: null
+    reasoning: none
+
+  renderer:
+    # 3 秒预算：Claude haiku 经代理经常 3s+，改 DeepSeek chat（中文短 JSON 1–2s，便宜）。
+    provider: deepseek
+    model: deepseek-chat
+    max_tokens: 600
+    temperature: 0.7
+    reasoning: none
+    # renderer 有 3 秒预算，超时就只显示决定、不显示看点。
+    timeout_ms: 3000

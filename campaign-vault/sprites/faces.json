@@ -1,0 +1,5 @@
+{
+  "_comment": "归一化脸部框：x/y/w/h 都是 0-1，相对于立绘画布（2026-10-18 起是 4×2 表情表切出来的半身特写，约 430×415；以前是 1024×1536 全身）。脚本把框取成正方形再缩到 256×256。autoCenterX: true 时按头顶那几行不透明像素的重心重新水平居中（angry / hurt 头会偏），headRows 是看多少比例的顶部行；allowOutside: true 时裁剪框可以越过画布上沿（补透明），免得头发被圆形棋子切掉。",
+  "player_a": { "x": 0.13, "y": -0.07, "w": 0.78, "h": 0.8, "autoCenterX": true, "headRows": 0.25, "allowOutside": true },
+  "player_b": { "x": 0.13, "y": -0.07, "w": 0.8, "h": 0.81, "autoCenterX": true, "headRows": 0.25, "allowOutside": true }
+}

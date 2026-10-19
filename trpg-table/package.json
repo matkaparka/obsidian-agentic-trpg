@@ -1,0 +1,29 @@
+{
+  "name": "trpg-table",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI D&D 5e table for a live-streamed actual play: Claude GM, DeepSeek/Gemini players, Atlas VTT, overlay and helixus-link.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/main.js",
+    "dev": "npm run build && node dist/main.js",
+    "test": "node -r ./scripts/patch-exec.cjs ./node_modules/vitest/vitest.mjs run",
+    "test:plain": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "models:smoke": "npm run build && node dist/llm/smoke.js"
+  },
+  "dependencies": {
+    "undici": "^7.0.0",
+    "yaml": "^2.8.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

@@ -1,0 +1,10 @@
+# build output of the tests/typecheck runs
+test-output.txt
+typecheck.txt
+
+# dependencies and caches (npm install inside the workspace needs a local cache)
+node_modules/
+.npm-cache/
+
+# scribbles
+*.log

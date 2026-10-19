@@ -1,0 +1,86 @@
+# 桌面节奏与循环参数。单位：秒。
+campaign_vault: ../campaign-vault
+# 2026-10-18 晚换成《通往凡达林的路》（和维斯坡伊 / 萨珀特菲的来历对得上）；旧的《银鸥号的残骸》还在 vault 里，改回 crashed-ship 即可
+adventure: phandalin-road
+
+pacing:
+  # 看点卡上屏后停多久
+  t_thought: 6
+  # 决定卡上屏后停多久（之后才进 GM 裁定）
+  t_decision: 4
+  # 两张卡之间的间隔
+  t_between: 2
+  # 推了 immediate 爆点之后多等多久，给 Helixus 留锐评时间
+  t_react: 8
+  # 新场景/新回合标题停留
+  t_scene: 3
+  # GM 裁定结果上屏后停留
+  t_resolve: 2
+
+limits:
+  # GM 一次调用最多这么多次工具调用，然后交还 TableLoop
+  gm_max_tool_calls: 8
+  # 玩家提示词里最近多少条桌面事件
+  player_recent_events: 12
+  # 玩家提示词里最近多少轮对话摘要
+  player_recent_turns: 6
+  # 玩家 JSON 解析失败后重试几次（brief：重试一次）
+  player_parse_retries: 1
+  # 每回合历史保留多少轮（存档用）
+  history_turns: 40
+  # 单步超时（毫秒）。GM 一次调用的上限（至少 60 秒）；玩家那一次调用另有 player_timeout_ms。
+  # 2026-10-19 从 180000 降到 90000：真跑里出现过一次 187 秒的 GM 调用（Anthropic 第一次尝试失败、重试才成），直播里等不起。
+  step_timeout_ms: 90000
+  # 玩家决定那一次模型调用的上限（毫秒）。超时就用保守默认行动「观察四周」，这一轮照样往下走。
+  # 注意这不是“一个回合最多多久”：看点、配音、停顿都在这之外，正常一个回合本来就要一分多钟。
+  player_timeout_ms: 75000
+  # 一幕进行到第几轮还没结束，就在 GM 每次的提示里加一段“该推进了，别再续写新障碍”；之后每隔 scene_nudge_every 轮加重一次。0 = 不提醒。
+  scene_nudge_rounds: 12
+  scene_nudge_every: 4
+  # 看了点的时间预算（毫秒）。
+  # 任务书写的是 3000（3 秒）；实测 Gemini 的思考摘要经常 3–4 秒才加工完，
+  # 默认放宽到 7000，超时仍只显示决定 + 一行说明。想严格按任务书就改回 3000。
+  renderer_budget_ms: 7000
+
+# 进度导演：每隔 every_rounds 个探索轮，用 models.yaml 里 director 座位的模型对照剧本判断一次进度（出口满足了没有、
+# 有没有和剧本对不上的事实、下一步该推什么），桌面强制执行：出口满足就让 GM 收尾（GM 不收桌面替它收）、对不上的事实删掉、
+# 推进指令塞进 GM 的下一步。超时 / 出错就跳过这一次，确定性的自动出口照常工作。enabled: false 就整个关掉。
+director:
+  enabled: true
+  every_rounds: 2
+  timeout_ms: 30000
+
+# Helixus 的旁白建议：on / off。off 时 POST /command 返回 403。
+helixus_suggestions: on
+# 最多同时保留几条未处理的建议，旧的作废
+helixus_max_suggestions: 2
+# 同一条建议多少秒内不重复
+helixus_suggestion_ttl_sec: 60
+# Helixus 是否能看到一句剧透级暗示（kind: gm_hint）。提示词要求他不要直接说破。
+helixus_knows_secrets: true
+
+# 启动时是否默认暂停（和其它游戏代理一样，等页面 Ctrl+Alt+K）
+start_paused: true
+# 没有 Atlas 时是否自动退回 dry-run（true：报清楚后退回；false：等待）
+fallback_to_dry_run: true
+
+# 用哪一套角色卡：留空 = campaign-vault/characters/<seat>.json（1 级版）；
+# lv3 = campaign-vault/characters/lv3/<seat>.json（3 级版，升级也按那套里的 build 算）。
+# 换了角色卡要用 --fresh 重开，否则存档里的角色会盖过角色卡文件。
+character_set: "lv3"
+
+# 配音：旁白（GM）和两个角色各用一个阿里云百炼 qwen3-tts-flash 音色。
+# 密钥放 .env 里的 DASHSCOPE_API_KEY（北京地域）；没有密钥就自动关掉，不影响桌面。
+# 价格约 0.8 元 / 万字符（汉字按 2 个字符算）；合成过的句子缓存在 state/tts/，同一句不会重复计费。
+# rate 是播放倍速（浏览器 playbackRate，保持音高）：沧明子语速很慢（实测约 2.5 字/秒），所以旁白加快一点。
+tts:
+  enabled: true
+  model: qwen3-tts-flash
+  language_type: Chinese
+  max_chars: 110        # 一段文字超过这个字数就切开分段合成（越短首段出声越快）
+  wait_cap_ms: 60000    # 桌面最多等多久让声音播完，网络慢 / 合成失败时不会卡死
+  thought_volume: 0.7   # 心里话也配音（同一个音色），音量是说话的这个倍数，听上去像在心里想
+  voices:
+    narrator: { voice: "Eldric Sage", rate: 1.25, volume: 1.0 }   # 沧明子
+    player_a: { voice: "Kai", rate: 1.05, volume: 1.0 }           # 凯：维斯坡伊（鲸鱼牧师）
+    player_b: { voice: "Marcus", rate: 1.0, volume: 1.0 }         # 秦川：萨珀特菲（虎野蛮人，陕西话）

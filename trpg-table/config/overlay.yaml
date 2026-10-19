@@ -1,0 +1,82 @@
+# overlay 布局（1920×1080 画布）。改完保存后重启 trpg-table 生效。
+#
+# 画面分四块（用户 的草图）：
+#   左上  地图（Atlas 玩家窗口里的跑团场景）
+#   左下  滚动剧情（GM 的叙述）
+#   右上  主播区（Helixus 的 3D 画面，留空，由直播姬叠上去）
+#   右下  两个主角的面板（半身立绘 + 血量 + 状态 + 先攻）
+# 角色说的话 / 心里想的挂在地图上的棋子上（漫画气泡），不占这四块。
+#
+# 这个文件同时决定 Atlas 玩家窗口里「地图区域」的位置：
+#   layout.map 的 x/y/w/h 会换算成 atlas_player_frame 的 insets。
+# 改 map 尺寸/位置后要重启 trpg-table（它会把新的 insets 传给演出框）。
+canvas:
+  width: 1920
+  height: 1080
+
+frame:
+  gap: 0
+
+# 地图框为什么是 1200×900：Atlas 玩家窗口会把地图缩到框的 90% 再居中（按短边算），森林三张图是 4:3，
+# 框是 1200×900 时地图正好显示 1080×810；原来的 1312×900 地图一样大，只是两边各多出 ~115 像素黑边。
+# 把这块黑边还给右边：主播区 608→720 宽。两张洞穴图是 16:9 左右（1.7+），按宽度缩，会比以前小约 9%（1181→1080 宽）。
+# 舞台的跑团模式窗口（Unity 的 stage_config.table.json 的 display）要和 streamer 的 w×h 一样大。
+layout:
+  map:        { x: 0,    y: 0,   w: 1200, h: 900 }
+  subtitle:   { x: 0,    y: 900, w: 1200, h: 180 }   # 滚动剧情
+  streamer:   { x: 1200, y: 0,   w: 720,  h: 780 }   # 主播区（留空）
+  characters: { x: 1200, y: 780, w: 720,  h: 300 }   # 两个主角
+
+# 配色：带灰的深蓝 / 蓝青，不用纯饱和蓝，不用大面积暖色；金色只留给暴击和大成功。
+colors:
+  panel: "rgba(8, 17, 26, 0.92)"
+  panel_hi: "rgba(18, 34, 48, 0.94)"
+  panel_edge: "#5f7f93"
+  panel_edge_dim: "#27404f"
+  text: "#e8eff5"
+  muted: "#a3b8c8"
+  dim: "#6f8799"
+  gold: "#e2b857"
+  accent_a: "#7fb6d8"
+  accent_b: "#a79ad0"
+  hp_ok: "#4db6a8"
+  hp_mid: "#d9916a"
+  hp_low: "#d0585a"
+  hp_track: "#0d1a24"
+  # 右侧主播区：深色底，给直播姬叠 3D 模型。和 Atlas 画布的底色（纯黑）一致
+  streamer_bg: "#05090d"
+  # 漫画气泡：浅底深字（在深色地图上最清楚）
+  bubble_thought: "#f2f6fa"
+  bubble_speech: "#fbf7ee"
+  bubble_text: "#16202c"
+  bubble_muted: "#5b6b7c"
+
+fonts:
+  family: '"Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif'
+  # 滚动剧情：书卷气的楷体（系统自带），找不到就退回 family
+  narration_family: '"KaiTi", "STKaiti", "Kaiti SC", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif'
+  numeric_family: '"Bahnschrift", "Segoe UI", "Microsoft YaHei UI", sans-serif'
+  subtitle_px: 32
+  bubble_px: 31
+  initiative_px: 22
+  dice_px: 40
+  name_px: 30
+  hp_px: 24
+
+bubbles:
+  # 上屏长度上限；超出按句子边界截断加「…」
+  max_thought_chars: 22
+  max_say_chars: 40
+  # 云朵停多久（T_thought）；说话气泡 = max(4s, 0.25s/字)，封顶 10s
+  thought_ttl_ms: 6000
+  speech_min_ms: 4000
+  speech_per_char_ms: 250
+  speech_max_ms: 10000
+  gap_px: 10
+
+dice:
+  # 骰子数字在目标棋子旁停 1.5 秒后上浮消失
+  ttl_ms: 1500
+
+# 角色换表情时，把 Atlas 棋子头像换成裁好的脸部图（sprites/faces.json 定义裁剪框）
+token_expressions: true

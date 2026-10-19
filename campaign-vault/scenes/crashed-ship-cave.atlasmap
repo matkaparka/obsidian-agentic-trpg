@@ -1,0 +1,82 @@
+{
+  "state": {
+    "schema": "atlas-vtt",
+    "version": 4,
+    "mapPath": "scenes/crashed-ship-cave.atlasmap",
+    "background": "assets/maps/crashed-ship-cave.png",
+    "grid": {
+      "enabled": true,
+      "visible": true,
+      "snapToGrid": true,
+      "type": "square",
+      "size": 70,
+      "offsetX": 0,
+      "offsetY": 0,
+      "opacity": 0.5,
+      "lineType": "solid",
+      "lineWidth": 1,
+      "unitType": "feet",
+      "unitDistance": 5
+    },
+    "objects": {
+      "tokens": {},
+      "fog": {},
+      "pins": {},
+      "texts": {},
+      "drawings": {},
+      "walls": {},
+      "lights": {}
+    },
+    "camera": {
+      "x": 0,
+      "y": 0,
+      "scale": 1
+    },
+    "widgetValues": {},
+    "widgetSettings": {
+      "widgets": {},
+      "globalVisible": true,
+      "position": "top",
+      "scale": 1
+    },
+    "dmNotePath": null,
+    "tokenSettings": {
+      "showNameplates": true,
+      "hiddenResources": [],
+      "showInstanceBadges": true,
+      "tokenRingSize": 1,
+      "showHPBars": true,
+      "showStressBars": true
+    },
+    "initiative": {
+      "entries": [],
+      "currentIndex": 0,
+      "round": 0,
+      "isActive": false,
+      "config": {
+        "autoSort": true
+      }
+    },
+    "initiativeTrackerOpen": false,
+    "diceLog": [],
+    "pinnedNotePreviews": {},
+    "lootRoller": {
+      "open": false,
+      "disabledViews": [],
+      "excludedRarities": [],
+      "count": 1,
+      "pane": "results"
+    },
+    "lighting": {
+      "enabled": true,
+      "ambient": 0.25,
+      "tokenVision": true,
+      "exploredMemory": true
+    },
+    "exploredMask": null,
+    "exploredEdits": {},
+    "selection": [],
+    "selectedIds": []
+  },
+  "version": 4
+}

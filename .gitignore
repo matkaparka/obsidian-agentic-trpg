@@ -1,0 +1,22 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+
+# runtime state and logs
+state/
+logs/
+
+# secrets and local Obsidian state
+**/.obsidian/plugins/*/data.json
+**/.obsidian/workspace.json
+obsidian-data*/
+
+# third-party downloads and assets (never commit)
+downloads/
+incoming/
+resource_pack/
+campaign-vault/assets/
+campaign-vault/sprites/*/
+campaign-vault/scenes/*.jpg

@@ -1,0 +1,9 @@
+{
+  "id": "atlas-agent-link",
+  "name": "Atlas Agent Link",
+  "version": "0.3.0",
+  "minAppVersion": "1.8.7",
+  "description": "Local MCP server + semantic event stream that lets AI agents read and control Atlas VTT scenes.",
+  "author": "obsidian-agentic-trpg",
+  "isDesktopOnly": true
+}

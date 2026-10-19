@@ -1,0 +1,22 @@
+{
+  "name": "atlas-agent-link",
+  "version": "0.3.0",
+  "description": "Obsidian plugin: a local MCP server and event stream that exposes Atlas VTT scenes to AI agents.",
+  "main": "main.js",
+  "scripts": {
+    "test": "node -r ./scripts/patch-exec.cjs ./node_modules/vitest/vitest.mjs run --pool=threads",
+    "test:plain": "vitest run",
+    "build": "node esbuild.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["obsidian", "atlas-vtt", "mcp", "ai"],
+  "author": "obsidian-agentic-trpg",
+  "license": "AGPL-3.0-only",
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "esbuild": "^0.28.2",
+    "obsidian": "^1.14.4",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

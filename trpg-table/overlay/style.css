@@ -1,0 +1,1018 @@
+:root {
+  --panel: rgba(8, 17, 26, 0.92);
+  --panel-hi: rgba(18, 34, 48, 0.94);
+  --edge: #5f7f93;
+  --edge-dim: #27404f;
+  --text: #e8eff5;
+  --muted: #a3b8c8;
+  --dim: #6f8799;
+  --gold: #e2b857;
+  --accent-a: #7fb6d8;
+  --accent-b: #a79ad0;
+  --hp-ok: #4db6a8;
+  --hp-mid: #d9916a;
+  --hp-low: #d0585a;
+  --hp-track: #0d1a24;
+  --streamer-bg: #05090d;
+  --bubble-thought: #f2f6fa;
+  --bubble-speech: #fbf7ee;
+  --bubble-text: #16202c;
+  --bubble-muted: #5b6b7c;
+  --font: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  --font-narration: "KaiTi", "STKaiti", "Kaiti SC", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+  --font-num: "Bahnschrift", "Segoe UI", "Microsoft YaHei UI", sans-serif;
+  --subtitle-px: 31px;
+  --bubble-px: 31px;
+  --initiative-px: 22px;
+  --dice-px: 40px;
+  --name-px: 30px;
+  --hp-px: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font);
+  color: var(--text);
+  background: transparent;
+}
+
+body.solid {
+  background: radial-gradient(ellipse at 36% 28%, #16273a 0%, #0b141d 58%, #05090d 100%);
+}
+
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ───────────── 装饰：四角的描边（只是线，不挡东西） ───────────── */
+.brackets,
+.panel::before,
+#map-veil::before,
+.frame::before {
+  --b: var(--edge);
+  --len: 28px;
+  --w: 2px;
+  background:
+    linear-gradient(var(--b), var(--b)) left top / var(--len) var(--w) no-repeat,
+    linear-gradient(var(--b), var(--b)) left top / var(--w) var(--len) no-repeat,
+    linear-gradient(var(--b), var(--b)) right top / var(--len) var(--w) no-repeat,
+    linear-gradient(var(--b), var(--b)) right top / var(--w) var(--len) no-repeat,
+    linear-gradient(var(--b), var(--b)) left bottom / var(--len) var(--w) no-repeat,
+    linear-gradient(var(--b), var(--b)) left bottom / var(--w) var(--len) no-repeat,
+    linear-gradient(var(--b), var(--b)) right bottom / var(--len) var(--w) no-repeat,
+    linear-gradient(var(--b), var(--b)) right bottom / var(--w) var(--len) no-repeat;
+}
+
+/* 右上：主播区。只有背景（深色 + 脚下一点冷光），没有任何子元素 */
+#streamer {
+  position: absolute;
+  background:
+    radial-gradient(ellipse 78% 46% at 50% 92%, rgba(56, 102, 130, 0.26), transparent 72%),
+    linear-gradient(180deg, #0a131c 0%, var(--streamer-bg) 100%);
+  overflow: hidden;
+}
+
+/* 地图四周：暗角把 Atlas 画布的黑边融进去，再加一圈细线和四角 */
+#map-veil {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  box-shadow: inset 0 0 70px 14px rgba(2, 6, 10, 0.5);
+}
+
+#map-veil::before,
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  pointer-events: none;
+}
+
+#map-veil::after,
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(95, 127, 147, 0.26);
+  pointer-events: none;
+}
+
+.frame {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ───────────── 面板（滚动剧情 / 两个主角）共用 ───────────── */
+.panel {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 24px 12px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.016) 0 1px, transparent 1px 4px),
+    linear-gradient(180deg, rgba(14, 27, 39, 0.95), var(--panel));
+  border: 1px solid var(--edge-dim);
+  box-shadow: inset 0 0 36px rgba(0, 0, 0, 0.5);
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  pointer-events: none;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 32px;
+  flex: none;
+}
+
+.panel-head .tag {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.panel-head .tag:empty {
+  display: none;
+}
+
+.panel-head .tag::before {
+  content: "◆";
+  font-size: 11px;
+  margin-right: 9px;
+  color: var(--edge);
+  vertical-align: 3px;
+}
+
+.panel-head .rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--edge-dim), rgba(39, 64, 79, 0));
+}
+
+/* ───────────── 左下：滚动剧情 ───────────── */
+#subtitle {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+#subtitle .scroll {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12px, #000 calc(100% - 8px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 12px, #000 calc(100% - 8px), transparent 100%);
+}
+
+#subtitle .log {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition: transform 0.7s cubic-bezier(0.22, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+#subtitle .log p {
+  font-family: var(--font-narration);
+  font-size: var(--subtitle-px);
+  line-height: 1.34;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55);
+  -webkit-text-stroke: 0.35px rgba(232, 239, 245, 0.55);
+  margin: 0 0 16px;
+  opacity: 0.38;
+  transition: opacity 0.5s ease;
+}
+
+#subtitle .log p.cur {
+  opacity: 1;
+}
+
+/* ───────────── 右下：两个主角 ───────────── */
+#party {
+  padding: 10px 16px 14px;
+}
+
+#party .cards {
+  position: relative;
+  z-index: 2; /* 立绘探出去的部分盖在标题行上面 */
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+/* 标题行的文字（探索 / 第 N 轮）和先攻条画在探出来的立绘上面；线 .rule 留在下面，免得一条线横穿立绘的脸 */
+#party .panel-head .tag,
+#party #initiative {
+  position: relative;
+  z-index: 3;
+}
+
+#party .panel-head .tag {
+  padding: 1px 10px 1px 7px;
+  background: rgba(8, 16, 24, 0.8);
+  border-radius: 4px;
+}
+
+#initiative {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* 回合条压在右边立绘的头发上：垫一条深色底，行动过的压暗才看得清 */
+#party #initiative:not(:empty) {
+  padding: 3px 9px;
+  background: rgba(8, 16, 24, 0.82);
+  border-radius: 20px;
+}
+
+#initiative .ini {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  background: rgba(24, 38, 54, 0.95);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex: none;
+  opacity: 0.88; /* 压在立绘的头发上，太透会透出底下的颜色 */
+}
+
+#initiative .ini.pc {
+  border-color: var(--ini-accent, var(--muted));
+  color: var(--ini-accent, var(--text));
+}
+
+#initiative .ini.current {
+  opacity: 1;
+  border-color: var(--text);
+  box-shadow: 0 0 0 2px rgba(232, 239, 245, 0.2);
+}
+
+/* 环境条目（天色、水位、倒计时）：方的、金色，和人区分开 */
+#initiative .ini.env {
+  border-radius: 7px;
+  border-color: rgba(230, 191, 85, 0.75);
+  color: #e6bf55;
+}
+
+/* 这一轮已经行动过：压暗，右下角一个绿点 */
+#initiative .ini.done {
+  opacity: 0.5;
+}
+
+#initiative .ini.done::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--hp-ok, #48bea0);
+  border: 2px solid #0b141d;
+}
+
+/* 新的一轮：标题闪一下 */
+#party .panel-head .tag.pulse {
+  animation: round-pulse 1.4s ease-out;
+}
+
+@keyframes round-pulse {
+  0% {
+    background: rgba(230, 191, 85, 0.85);
+    color: #101820;
+  }
+  100% {
+    background: rgba(8, 16, 24, 0.8);
+  }
+}
+
+.card {
+  --acc: var(--accent-a);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--edge-dim);
+  border-top: 3px solid var(--acc);
+  background: var(--panel-hi);
+  /* 立绘的头会探出卡片上沿（见 .sprite），所以这里不能裁切 */
+  overflow: visible;
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.card[data-seat="player_b"] {
+  --acc: var(--accent-b);
+}
+
+.card.active {
+  border-color: var(--acc);
+  box-shadow: 0 0 0 1px var(--acc), 0 0 22px rgba(127, 182, 216, 0.22);
+}
+
+/*
+ * 立绘区：卡片背景是一块固定高度的暗色底，立绘（透明底的半身像，宽 --sprite-w）贴着这块底的下沿站着，
+ * 比底更高的那部分（头）探出卡片上沿，盖在面板标题行上。底部不齐的毛边被 .fade 的暗色渐变盖住。
+ *   --portrait-h  暗色底的高度
+ *   --sprite-w    立绘的宽度（高 ≈ 宽 × 0.97）
+ *   --sprite-sink 立绘往下沉进血条行的高度（被 .vitals 盖住，毛边就看不见了）；
+ *                 探出卡片上沿的高度 ≈ 立绘高 - --portrait-h - --sprite-sink。
+ *                 先攻条（战斗时）在标题行右边、压在立绘上面，所以眼睛必须落在标题行以下：别把它调小
+ */
+.card .portrait {
+  --portrait-h: 158px;
+  --sprite-w: 232px;
+  --sprite-sink: 16px;
+  position: relative;
+  flex: 0 0 var(--portrait-h);
+  overflow: visible;
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 100%, rgba(95, 127, 147, 0.28), transparent 70%),
+    linear-gradient(180deg, #0f1e2b, #0a141d);
+}
+
+.card .sprite {
+  position: absolute;
+  left: 50%;
+  bottom: calc(-1 * var(--sprite-sink));
+  width: var(--sprite-w);
+  height: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 9px rgba(0, 0, 0, 0.55));
+  /* 原图是从表情表里切出来的：左右有竖直的硬边，底边毛毛的。两侧和底部各渐隐一小段，让它融进卡片 */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent),
+    linear-gradient(to top, transparent, #000 10%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent),
+    linear-gradient(to top, transparent, #000 10%);
+  mask-composite: intersect;
+  opacity: 0;
+  transition: opacity 0.3s ease, filter 0.4s ease;
+}
+
+.card .sprite.ready {
+  opacity: 1;
+}
+
+/* 分到经验 / 升级时浮在立绘右侧的小提示（app.js 的 showToast），几秒后自己消失 */
+.card .toasts {
+  position: absolute;
+  right: 8px;
+  bottom: 70px; /* 在名字和职业两行的上面 */
+  z-index: 3;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.card .toast {
+  padding: 1px 10px 2px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  border-radius: 3px;
+  animation: toast-life 6s ease forwards;
+}
+
+.card .toast.hold {
+  animation: none;
+}
+
+.card .toast.xp {
+  color: #f3e6b4;
+  background: rgba(58, 46, 12, 0.85);
+  border: 1px solid rgba(214, 177, 76, 0.6);
+}
+
+.card .toast.loot {
+  color: #d8f3e4;
+  background: rgba(14, 52, 40, 0.88);
+  border: 1px solid rgba(72, 190, 160, 0.65);
+}
+
+.card .toast.level {
+  font-size: 25px;
+  color: #231a06;
+  background: linear-gradient(90deg, #e6bf55, #f7e5a2);
+  border: 1px solid #f7e5a2;
+  box-shadow: 0 0 16px rgba(232, 194, 90, 0.6);
+}
+
+@keyframes toast-life {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  8% {
+    opacity: 1;
+    transform: none;
+  }
+  82% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+/* 浏览器不让自动出声时的提示（Electron / OBS 里一般不会出现）；只有这个提示要接收鼠标 */
+#audio-hint {
+  position: fixed;
+  left: 50%;
+  top: 14px;
+  z-index: 50;
+  transform: translateX(-50%);
+  padding: 4px 16px 6px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1c1608;
+  background: #e6bf55;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* 没有立绘时的剪影（头 + 肩） */
+.card .ph {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(95, 127, 147, 0.5) 0 22px, transparent 23px),
+    radial-gradient(ellipse 54px 40px at 50% 92%, rgba(95, 127, 147, 0.4) 0 100%, transparent 101%);
+  opacity: 0.6;
+}
+
+.card .sprite.ready ~ .ph {
+  display: none;
+}
+
+.card .fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 62%;
+  background: linear-gradient(to top, rgba(7, 14, 21, 0.94), rgba(7, 14, 21, 0));
+  pointer-events: none;
+}
+
+.card .id {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card .name {
+  font-size: var(--name-px);
+  line-height: 1.12;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #f1f6fa;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.75);
+  white-space: nowrap;
+}
+
+.card .role {
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+
+.card .turn,
+.card .down,
+.card .think {
+  position: absolute;
+  display: none;
+}
+
+.card .turn {
+  top: 8px;
+  right: 8px;
+  padding: 1px 11px 2px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #0a141c;
+  background: var(--acc);
+}
+
+.card.active .turn {
+  display: block;
+}
+
+.card .think {
+  top: 10px;
+  left: 10px;
+  padding: 5px 9px;
+  gap: 5px;
+  background: rgba(7, 14, 21, 0.72);
+  border: 1px solid var(--edge-dim);
+  border-radius: 12px;
+}
+
+.card.thinking .think {
+  display: flex;
+}
+
+.card .think i {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--acc);
+  animation: bubble-dot 1.15s infinite ease-in-out;
+}
+
+.card .think i:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.card .think i:nth-child(3) {
+  animation-delay: 0.28s;
+}
+
+.card .down {
+  left: 0;
+  right: 0;
+  top: 22%;
+  text-align: center;
+  padding: 3px 0 5px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 12px;
+  text-indent: 12px;
+  color: #f3d9d9;
+  background: rgba(150, 40, 44, 0.62);
+}
+
+.card.downed .down {
+  display: block;
+}
+
+.card.downed .sprite {
+  filter: grayscale(1) brightness(0.55);
+}
+
+.card .vitals {
+  position: relative;
+  z-index: 1; /* 盖住下沉的立绘底边 */
+  background: var(--panel-hi);
+  flex: 1;
+  padding: 6px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.card .hp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card .track {
+  position: relative;
+  flex: 1;
+  height: 22px;
+  background: var(--hp-track);
+  clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
+  box-shadow: inset 0 0 0 1px rgba(95, 127, 147, 0.35);
+}
+
+.card .fill {
+  height: 100%;
+  width: 100%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 52%),
+    var(--hpc, var(--hp-ok));
+  transition: width 0.7s cubic-bezier(0.22, 0.7, 0.2, 1), background-color 0.4s ease;
+}
+
+.card.hp-low .fill {
+  animation: hp-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes hp-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.35);
+  }
+}
+
+.card .num {
+  min-width: 82px;
+  text-align: right;
+  font-family: var(--font-num);
+  font-size: var(--hp-px);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+
+.card .meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  /* 不能裁切：下面的滑轨画在这一行的下沿外面 */
+  overflow: visible;
+}
+
+.card .ac {
+  flex: none;
+  padding: 0 9px 1px;
+  font-family: var(--font-num);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  border: 1px solid var(--edge);
+  border-radius: 4px;
+}
+
+/* 金币：和 AC 一排的小标签，没钱就不显示 */
+.card .gold {
+  flex: none;
+  padding: 0 8px 1px;
+  font-family: var(--font-num);
+  font-size: 17px;
+  font-weight: 700;
+  color: #e6bf55;
+  border: 1px solid rgba(214, 177, 76, 0.55);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/*
+ * 状态标签：.conds（外框，给滑轨留位置）> .conds-view（裁切窗口）> .conds-run（一整排，放不下时 JS 让它来回滚动）
+ *           .conds > .conds-rail > i（滑轨上的滑块，和 .conds-run 同步移动；只在滚动时显示）
+ * 颜色：青 = 增益（法术、狂暴、隐形）；红 = 负面（中毒、目盲、鲁莽攻击…）；暗红 = 濒死 / 稳定 / 死亡；灰蓝 = 没分类
+ */
+.card .conds {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.card .conds-view {
+  overflow: hidden;
+}
+
+.card .conds.scrolling .conds-view {
+  /* 两头各虚掉一小段，提示后面还有（窄一点，不然停在起点时第一个标签会发暗） */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6px, #000 calc(100% - 10px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6px, #000 calc(100% - 10px), transparent);
+}
+
+.card .conds-run {
+  display: flex;
+  gap: 6px;
+  width: max-content;
+  will-change: transform;
+}
+
+.card .conds .t {
+  flex: none;
+  padding: 0 8px 1px;
+  font-size: 18px;
+  color: #cfe3f0;
+  background: rgba(127, 182, 216, 0.13);
+  border: 1px solid var(--edge-dim);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.card .conds .t-buff {
+  color: #bdeedf;
+  background: rgba(72, 190, 160, 0.15);
+  border-color: rgba(72, 190, 160, 0.5);
+}
+
+.card .conds .t-debuff {
+  color: #f6c6c6;
+  background: rgba(205, 72, 72, 0.17);
+  border-color: rgba(205, 84, 84, 0.55);
+}
+
+.card .conds .t-down {
+  color: #f6dcdc;
+  background: rgba(150, 40, 44, 0.55);
+  border-color: rgba(205, 84, 84, 0.7);
+}
+
+.card .conds .conc::before {
+  content: "◎";
+  margin-right: 4px;
+  font-size: 13px;
+  vertical-align: 1px;
+  opacity: 0.8;
+}
+
+.card .conds-rail {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.card .conds.scrolling .conds-rail {
+  display: block;
+}
+
+.card .conds-rail i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-radius: 2px;
+  background: rgba(150, 190, 215, 0.85);
+  will-change: transform;
+}
+
+/* ───────────── 地图上的气泡 / 骰子 ───────────── */
+/* 气泡与尾巴 */
+#bubble-layer,
+#tail-layer,
+#dice-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#tail-layer {
+  z-index: 30;
+  overflow: visible;
+}
+
+#bubble-layer {
+  z-index: 31;
+}
+
+#dice-layer {
+  z-index: 40;
+}
+
+.bubble {
+  position: absolute;
+  color: var(--bubble-text);
+  font-size: var(--bubble-px);
+  line-height: 1.28;
+  font-weight: 600;
+  padding: 12px 18px;
+  border: 3px solid var(--accent, var(--accent-a));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38);
+  background: var(--bubble-speech);
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  will-change: transform, opacity;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  /* 漫画气泡的读法：居中、行长尽量均匀（避免末行只剩一个「看。」） */
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* 云朵：外形（带凸边的轮廓、底色、描边）画在 #tail-layer 的 SVG 里，这里只放字。
+   padding 比语音气泡大一圈，给轮廓的凸边留位置，所以字永远在矩形里，不会被边角切掉。 */
+.bubble.cloud {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  max-width: 452px;
+  padding: 28px 36px;
+}
+
+.bubble.speech {
+  background: var(--bubble-speech);
+  border-radius: 12px;
+  max-width: 470px;
+}
+
+.bubble.thinking {
+  width: 96px;
+  height: 64px;
+  min-width: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.bubble.thinking i {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bubble-muted);
+  animation: bubble-dot 1.15s infinite ease-in-out;
+}
+
+.bubble.thinking i:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.bubble.thinking i:nth-child(3) {
+  animation-delay: 0.28s;
+}
+
+@keyframes bubble-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.28;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.bubble.shrink {
+  transform: scale(0.62);
+  opacity: 0;
+}
+
+.bubble .speaker {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--bubble-muted);
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+/* 云朵轮廓 + 云朵尾巴：由大到小的圆点，由 JS 画在 SVG 里 */
+#tail-layer g {
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.38));
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+#tail-layer g.shrink {
+  transform: scale(0.62);
+  opacity: 0;
+}
+
+.cloud-body {
+  fill: var(--bubble-thought);
+  stroke: var(--accent, var(--accent-a));
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.tail-cloud {
+  fill: var(--bubble-thought);
+  stroke: var(--accent, var(--accent-a));
+  stroke-width: 3;
+}
+
+.tail-speech {
+  fill: var(--bubble-speech);
+  stroke: var(--accent, var(--accent-a));
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+/* 骰子：在目标棋子旁浮出数字，停 1.5 秒后上浮消失 */
+.dice-float {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #f5f9fd;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 18px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  animation: dice-rise 1.5s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.dice-float .n {
+  font-size: var(--dice-px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.dice-float .tag {
+  margin-top: 2px;
+  font-size: 20px;
+  line-height: 1.1;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.dice-float.crit {
+  color: var(--gold);
+}
+
+.dice-float.crit .tag {
+  color: var(--gold);
+}
+
+.dice-float.miss {
+  color: #a8b3be;
+}
+
+.dice-float.miss .tag {
+  color: #8794a1;
+}
+
+@keyframes dice-rise {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.8);
+  }
+  14% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.06);
+  }
+  24% {
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -58px) scale(0.96);
+  }
+}
+
+#demo-badge {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--gold);
+  background: rgba(10, 20, 30, 0.9);
+  color: var(--gold);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 60;
+  pointer-events: none;
+}

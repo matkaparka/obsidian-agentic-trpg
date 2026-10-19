@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>trpg-table overlay</title>
+    <link rel="stylesheet" href="/overlay/style.css" />
+  </head>
+  <body class="transparent">
+    <div id="stage">
+      <!-- 右上：主播区。只有背景，没有任何文字/面板，留给直播姬叠 Helixus 的 3D 画面 -->
+      <div id="streamer"></div>
+
+      <!-- 地图和主播区的描边、暗角（装饰，不挡东西） -->
+      <div id="map-veil"></div>
+      <div id="vup-frame" class="frame"></div>
+
+      <!-- 地图上的气泡 / 尾巴 / 骰子 -->
+      <div id="bubble-layer"></div>
+      <svg id="tail-layer" width="1920" height="1080" viewBox="0 0 1920 1080" aria-hidden="true"></svg>
+      <div id="dice-layer"></div>
+
+      <!-- 左下：滚动剧情 -->
+      <section id="subtitle" class="panel">
+        <header class="panel-head">
+          <span class="tag chapter"></span>
+          <span class="rule"></span>
+          <span class="tag where"></span>
+        </header>
+        <div class="scroll"><div class="log"></div></div>
+      </section>
+
+      <!-- 右下：两个主角 -->
+      <section id="party" class="panel">
+        <header class="panel-head">
+          <span class="tag phase"></span>
+          <span class="rule"></span>
+          <span id="initiative"></span>
+        </header>
+        <div class="cards">
+          <article class="card" data-seat="player_a">
+            <div class="portrait">
+              <img class="sprite" alt="" />
+              <div class="ph"></div>
+              <div class="fade"></div>
+              <div class="id">
+                <span class="name"></span>
+                <span class="role"></span>
+              </div>
+              <span class="think"><i></i><i></i><i></i></span>
+              <span class="turn">行动中</span>
+              <span class="down">倒下</span>
+            </div>
+            <div class="vitals">
+              <div class="hp"><div class="track"><div class="fill"></div></div><span class="num"></span></div>
+              <div class="meta"><span class="ac"></span><span class="gold"></span><span class="conds"></span></div>
+            </div>
+          </article>
+          <article class="card" data-seat="player_b">
+            <div class="portrait">
+              <img class="sprite" alt="" />
+              <div class="ph"></div>
+              <div class="fade"></div>
+              <div class="id">
+                <span class="name"></span>
+                <span class="role"></span>
+              </div>
+              <span class="think"><i></i><i></i><i></i></span>
+              <span class="turn">行动中</span>
+              <span class="down">倒下</span>
+            </div>
+            <div class="vitals">
+              <div class="hp"><div class="track"><div class="fill"></div></div><span class="num"></span></div>
+              <div class="meta"><span class="ac"></span><span class="gold"></span><span class="conds"></span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div id="demo-badge" class="hidden">演示数据</div>
+    </div>
+    <script src="/overlay/app.js" type="module"></script>
+  </body>
+</html>
