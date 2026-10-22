@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "keywords": ["obsidian", "atlas-vtt", "mcp", "ai"],
-  "author": "obsidian-agentic-trpg",
+  "author": "matkaparka",
   "license": "AGPL-3.0-only",
   "devDependencies": {
     "@types/node": "^26.6.5",
